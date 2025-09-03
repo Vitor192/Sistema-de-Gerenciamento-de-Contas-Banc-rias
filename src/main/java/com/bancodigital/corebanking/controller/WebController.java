@@ -285,4 +285,10 @@ public class WebController {
     public String acessoNegado() {
         return "error/403";
     }
+    
+    // Página de reprodução de mídia
+    @GetMapping("/media-player")
+    public String mediaPlayer() {
+        return "media-player";
+    }
 }
