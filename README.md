@@ -1,6 +1,6 @@
 # Sistema de Gerenciamento de Contas Bancárias
 
-Sistema completo para gerenciamento de contas bancárias com autenticação segura, operações bancárias e interface web responsiva.
+API REST para gerenciamento de contas bancárias com autenticação segura e operações bancárias.
 
 ## Funcionalidades
 
@@ -8,8 +8,7 @@ Sistema completo para gerenciamento de contas bancárias com autenticação segu
 - Gerenciamento de contas bancárias (corrente, poupança, investimento)
 - Operações bancárias: transferências, depósitos, saques
 - Extrato bancário com filtros por período
-- Dashboard com resumo financeiro
-- Interface responsiva com Bootstrap 5
+- API REST completa para integração com qualquer frontend
 
 ## Requisitos
 
@@ -48,9 +47,9 @@ mvn clean install
 mvn spring-boot:run
 ```
 
-2. Acesse a aplicação em seu navegador:
+2. A API estará disponível em:
 ```
-http://localhost:8080
+http://localhost:8080/api
 ```
 
 ## Usuário de Demonstração
@@ -66,7 +65,7 @@ Após iniciar a aplicação pela primeira vez, um usuário de demonstração ser
 ```
 src/main/java/com/bancodigital/corebanking/
 ├── config/           # Configurações do Spring e segurança
-├── controller/       # Controladores REST e MVC
+├── controller/       # Controladores REST
 ├── dto/              # Objetos de transferência de dados
 ├── exception/        # Exceções personalizadas
 ├── model/            # Entidades JPA
@@ -80,8 +79,6 @@ src/main/java/com/bancodigital/corebanking/
 - Spring Boot 3.x
 - Spring Security
 - Spring Data JPA
-- Thymeleaf
-- Bootstrap 5
 - MySQL
 - Lombok
 - JWT (JSON Web Token)

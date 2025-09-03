@@ -44,4 +44,6 @@ public abstract class Conta {
     private List<Transacao> transacoesRecebidas = new ArrayList<>();
 
     public abstract BigDecimal calcularTaxa(BigDecimal valor);
+
+    public abstract BigDecimal getLimite();
 }
