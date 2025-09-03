@@ -1,4 +1,4 @@
-# Sistema de Gerenciamento de Contas Bancárias
+# 💰Sistema de Gerenciamento de Contas Bancárias
 
 API REST para gerenciamento de contas bancárias com autenticação segura e operações bancárias.
 
