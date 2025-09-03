@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banco Digital - Seu banco completo</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <style>
+        .hero-section {
+            background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+            color: white;
+            padding: 5rem 0;
+        }
+        .feature-card {
+            border: none;
+            border-radius: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: #0d6efd;
+        }
+        .testimonial-section {
+            background-color: #f8f9fa;
+            padding: 5rem 0;
+        }
+        .testimonial-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        .testimonial-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1rem;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, #0a58ca 0%, #0d6efd 100%);
+            color: white;
+            padding: 5rem 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Cabeçalho -->
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" th:href="@{/}">
+                    <i class="fas fa-university me-2"></i>Banco Digital
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link active" th:href="@{/}">Início</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#recursos">Recursos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#sobre">Sobre Nós</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#contato">Contato</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav">
+                        <li class="nav-item" sec:authorize="!isAuthenticated()">
+                            <a class="nav-link" th:href="@{/login}">
+                                <i class="fas fa-sign-in-alt me-1"></i>Login
+                            </a>
+                        </li>
+                        <li class="nav-item" sec:authorize="!isAuthenticated()">
+                            <a class="nav-link" th:href="@{/registro}">
+                                <i class="fas fa-user-plus me-1"></i>Registrar
+                            </a>
+                        </li>
+                        <li class="nav-item" sec:authorize="isAuthenticated()">
+                            <a class="nav-link" th:href="@{/dashboard}">
+                                <i class="fas fa-tachometer-alt me-1"></i>Minha Conta
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Seção Hero -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="display-4 fw-bold mb-4">Seu banco digital completo</h1>
+                    <p class="lead mb-4">Gerencie suas finanças com facilidade, segurança e praticidade. Acesse sua conta de qualquer lugar, a qualquer momento.</p>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                        <a th:href="@{/registro}" class="btn btn-light btn-lg px-4 me-md-2">Abra sua conta</a>
+                        <a href="#recursos" class="btn btn-outline-light btn-lg px-4">Saiba mais</a>
+                    </div>
+                </div>
+                <div class="col-lg-6 d-none d-lg-block">
+                    <img src="https://via.placeholder.com/600x400" alt="Banco Digital" class="img-fluid rounded shadow">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção de Recursos -->
+    <section class="py-5" id="recursos">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">Nossos Recursos</h2>
+                <p class="lead text-muted">Descubra todas as vantagens de ser cliente do Banco Digital</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card h-100 feature-card">
+                        <div class="card-body text-center p-4">
+                            <div class="feature-icon">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <h3 class="card-title">Banco 100% Digital</h3>
+                            <p class="card-text">Realize todas as suas operações bancárias pelo computador ou smartphone, sem precisar sair de casa.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 feature-card">
+                        <div class="card-body text-center p-4">
+                            <div class="feature-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <h3 class="card-title">Segurança Avançada</h3>
+                            <p class="card-text">Autenticação de dois fatores e criptografia de ponta a ponta para proteger suas informações e transações.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 feature-card">
+                        <div class="card-body text-center p-4">
+                            <div class="feature-icon">
+                                <i class="fas fa-exchange-alt"></i>
+                            </div>
+                            <h3 class="card-title">Transferências Instantâneas</h3>
+                            <p class="card-text">Envie e receba dinheiro em tempo real com PIX, sem taxas e com total segurança.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 feature-card">
+                        <div class="card-body text-center p-4">
+                            <div class="feature-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <h3 class="card-title">Gestão Financeira</h3>
+                            <p class="card-text">Acompanhe seus gastos, crie metas e organize suas finanças com ferramentas intuitivas.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 feature-card">
+                        <div class="card-body text-center p-4">
+                            <div class="feature-icon">
+                                <i class="fas fa-piggy-bank"></i>
+                            </div>
+                            <h3 class="card-title">Conta Poupança</h3>
+                            <p class="card-text">Faça seu dinheiro render com nossas opções de investimento e conta poupança com ótimas taxas.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 feature-card">
+                        <div class="card-body text-center p-4">
+                            <div class="feature-icon">
+                                <i class="fas fa-headset"></i>
+                            </div>
+                            <h3 class="card-title">Suporte 24/7</h3>
+                            <p class="card-text">Atendimento ao cliente disponível 24 horas por dia, 7 dias por semana, para resolver suas dúvidas.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção de Depoimentos -->
+    <section class="testimonial-section" id="depoimentos">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">O que nossos clientes dizem</h2>
+                <p class="lead text-muted">Veja a experiência de quem já utiliza nossos serviços</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="testimonial-card text-center">
+                        <img src="https://via.placeholder.com/150" alt="Cliente 1" class="testimonial-img mx-auto">
+                        <h4>Ana Silva</h4>
+                        <p class="text-muted mb-3">Empresária</p>
+                        <p>"O Banco Digital revolucionou a forma como gerencio as finanças da minha empresa. Tudo é muito rápido e prático!"</p>
+                        <div class="text-warning">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="testimonial-card text-center">
+                        <img src="https://via.placeholder.com/150" alt="Cliente 2" class="testimonial-img mx-auto">
+                        <h4>Carlos Oliveira</h4>
+                        <p class="text-muted mb-3">Professor</p>
+                        <p>"A segurança de dois fatores me dá tranquilidade. Além disso, o aplicativo é muito intuitivo e fácil de usar."</p>
+                        <div class="text-warning">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="testimonial-card text-center">
+                        <img src="https://via.placeholder.com/150" alt="Cliente 3" class="testimonial-img mx-auto">
+                        <h4>Mariana Santos</h4>
+                        <p class="text-muted mb-3">Estudante</p>
+                        <p>"Como estudante, precisava de uma conta sem taxas. O Banco Digital oferece isso e muito mais, com um atendimento excelente!"</p>
+                        <div class="text-warning">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção CTA -->
+    <section class="cta-section">
+        <div class="container text-center">
+            <h2 class="display-5 fw-bold mb-4">Pronto para começar?</h2>
+            <p class="lead mb-4">Abra sua conta agora mesmo e desfrute de todos os benefícios do Banco Digital.</p>
+            <a th:href="@{/registro}" class="btn btn-light btn-lg px-5 py-3">Abrir conta grátis</a>
+        </div>
+    </section>
+
+    <!-- Rodapé -->
+    <footer class="bg-dark text-white py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>Banco Digital</h5>
+                    <p>Seu banco digital completo e seguro para todas as suas necessidades financeiras.</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Links Rápidos</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white">Sobre Nós</a></li>
+                        <li><a href="#" class="text-white">Termos de Uso</a></li>
+                        <li><a href="#" class="text-white">Política de Privacidade</a></li>
+                        <li><a href="#" class="text-white">Contato</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Contato</h5>
+                    <address>
+                        <p><i class="fas fa-map-marker-alt me-2"></i>Av. Paulista, 1000 - São Paulo, SP</p>
+                        <p><i class="fas fa-phone me-2"></i>(11) 1234-5678</p>
+                        <p><i class="fas fa-envelope me-2"></i>contato@bancodigital.com.br</p>
+                    </address>
+                    <div class="social-icons">
+                        <a href="#" class="text-white me-2"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-white me-2"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-white me-2"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-white"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="text-center">
+                <p class="mb-0">&copy; <span th:text="${#dates.format(#dates.createNow(), 'yyyy')}">2023</span> Banco Digital. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

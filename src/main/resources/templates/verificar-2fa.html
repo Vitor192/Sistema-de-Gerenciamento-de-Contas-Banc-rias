@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main}">
+<head>
+    <title>Verificação 2FA - Banco Digital</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="container py-5">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="card shadow-lg border-0 rounded-lg">
+                        <div class="card-header bg-primary text-white text-center">
+                            <h3 class="mb-0">Verificação em Duas Etapas</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="text-center mb-4">
+                                <i class="fas fa-shield-alt fa-4x text-primary mb-3"></i>
+                                <p class="lead">Digite o código de verificação do seu aplicativo autenticador</p>
+                            </div>
+                            
+                            <div th:if="${param.error}" class="alert alert-danger">
+                                <i class="fas fa-exclamation-triangle me-2"></i>
+                                Código inválido. Por favor, tente novamente.
+                            </div>
+                            
+                            <form th:action="@{/api/auth/verificar-totp}" method="post" class="needs-validation" novalidate>
+                                <input type="hidden" id="username" name="username" th:value="${username}">
+                                
+                                <div class="mb-4">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control form-control-lg text-center" 
+                                               id="code" name="code" placeholder="Código" 
+                                               required maxlength="6" minlength="6" 
+                                               pattern="[0-9]+" autocomplete="off">
+                                        <label for="code">Código de 6 dígitos</label>
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        Por favor, digite um código válido de 6 dígitos.
+                                    </div>
+                                </div>
+                                
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary btn-lg">
+                                        <i class="fas fa-check-circle me-2"></i>Verificar
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="card-footer text-center py-3">
+                            <div class="small">
+                                <a th:href="@{/login}" class="text-decoration-none">
+                                    <i class="fas fa-arrow-left me-1"></i>Voltar para o login
+                                </a>
+                            </div>
+                            <div class="small mt-2">
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#helpModal" class="text-decoration-none">
+                                    <i class="fas fa-question-circle me-1"></i>Precisa de ajuda?
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Modal de Ajuda -->
+        <div class="modal fade" id="helpModal" tabindex="-1" aria-labelledby="helpModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-light">
+                        <h5 class="modal-title" id="helpModalLabel">
+                            <i class="fas fa-question-circle me-2 text-primary"></i>Ajuda com Autenticação de Dois Fatores
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h6 class="fw-bold">O que é autenticação de dois fatores (2FA)?</h6>
+                        <p>A autenticação de dois fatores é uma camada adicional de segurança que exige não apenas uma senha, mas também um segundo fator de autenticação – geralmente um código temporário gerado por um aplicativo autenticador.</p>
+                        
+                        <h6 class="fw-bold mt-3">Como obter o código?</h6>
+                        <p>O código deve ser obtido através do aplicativo autenticador que você configurou durante o registro, como Google Authenticator, Microsoft Authenticator ou Authy.</p>
+                        
+                        <h6 class="fw-bold mt-3">Não consigo acessar meu aplicativo autenticador</h6>
+                        <p>Se você não conseguir acessar seu aplicativo autenticador, entre em contato com o suporte ao cliente para assistência adicional.</p>
+                        
+                        <div class="alert alert-info mt-3">
+                            <i class="fas fa-info-circle me-2"></i>
+                            <strong>Dica:</strong> Os códigos são válidos apenas por 30 segundos. Se o seu código expirar, aguarde o próximo código no seu aplicativo autenticador.
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script th:inline="javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+            // Focar automaticamente no campo de código
+            document.getElementById('code').focus();
+            
+            // Formatar entrada para aceitar apenas números
+            document.getElementById('code').addEventListener('input', function(e) {
+                this.value = this.value.replace(/[^0-9]/g, '');
+            });
+            
+            // Enviar formulário automaticamente quando 6 dígitos forem inseridos
+            document.getElementById('code').addEventListener('keyup', function() {
+                if (this.value.length === 6) {
+                    this.form.submit();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

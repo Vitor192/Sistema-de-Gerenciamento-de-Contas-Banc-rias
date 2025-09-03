@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main}">
+<head>
+    <title>Transferência - Banco Digital</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="container py-4">
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="card shadow-sm border-0 rounded-lg">
+                        <div class="card-header bg-primary text-white">
+                            <h4 class="mb-0"><i class="fas fa-exchange-alt me-2"></i>Transferência Bancária</h4>
+                        </div>
+                        <div class="card-body">
+                            <div th:if="${param.success}" class="alert alert-success alert-dismissible fade show" role="alert">
+                                <i class="fas fa-check-circle me-2"></i>
+                                <strong>Sucesso!</strong> Transferência realizada com sucesso.
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+                            </div>
+                            
+                            <div th:if="${param.error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <i class="fas fa-exclamation-triangle me-2"></i>
+                                <strong>Erro!</strong> <span th:text="${param.message}">Ocorreu um erro ao processar sua transferência.</span>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+                            </div>
+                            
+                            <form id="transferForm" th:action="@{/api/transacoes/transferir}" method="post" class="needs-validation" novalidate>
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <div class="form-floating mb-3 mb-md-0">
+                                            <select class="form-select" id="contaOrigem" name="contaOrigem" required>
+                                                <option value="" selected disabled>Selecione uma conta</option>
+                                                <option th:each="conta : ${contas}" 
+                                                        th:value="${conta.id}" 
+                                                        th:text="${conta.tipo + ' - ' + conta.numero + ' (R$ ' + #numbers.formatDecimal(conta.saldo, 1, 'POINT', 2, 'COMMA') + ')'}">
+                                                </option>
+                                            </select>
+                                            <label for="contaOrigem">Conta de Origem</label>
+                                            <div class="invalid-feedback">
+                                                Por favor, selecione uma conta de origem.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" id="saldoDisponivel" readonly>
+                                            <label for="saldoDisponivel">Saldo Disponível</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <div class="form-floating mb-3 mb-md-0">
+                                            <select class="form-select" id="tipoTransferencia" name="tipoTransferencia" required>
+                                                <option value="" selected disabled>Selecione o tipo</option>
+                                                <option value="MESMA_TITULARIDADE">Mesma Titularidade</option>
+                                                <option value="OUTRO_TITULAR">Outro Titular</option>
+                                                <option value="PIX">PIX</option>
+                                                <option value="TED">TED</option>
+                                            </select>
+                                            <label for="tipoTransferencia">Tipo de Transferência</label>
+                                            <div class="invalid-feedback">
+                                                Por favor, selecione o tipo de transferência.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" id="contaDestino" name="contaDestino" placeholder="Conta de Destino" required>
+                                            <label for="contaDestino">Conta de Destino</label>
+                                            <div class="invalid-feedback">
+                                                Por favor, informe a conta de destino.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row mb-3" id="pixKeyContainer" style="display: none;">
+                                    <div class="col-md-6">
+                                        <div class="form-floating mb-3 mb-md-0">
+                                            <select class="form-select" id="tipoChavePix" name="tipoChavePix">
+                                                <option value="" selected disabled>Selecione o tipo</option>
+                                                <option value="CPF">CPF</option>
+                                                <option value="EMAIL">E-mail</option>
+                                                <option value="TELEFONE">Telefone</option>
+                                                <option value="ALEATORIA">Chave Aleatória</option>
+                                            </select>
+                                            <label for="tipoChavePix">Tipo de Chave PIX</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" id="chavePix" name="chavePix" placeholder="Chave PIX">
+                                            <label for="chavePix">Chave PIX</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <div class="form-floating mb-3 mb-md-0">
+                                            <input type="text" class="form-control money-mask" id="valor" name="valor" placeholder="Valor" required>
+                                            <label for="valor">Valor (R$)</label>
+                                            <div class="invalid-feedback">
+                                                Por favor, informe o valor da transferência.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="date" class="form-control" id="dataTransferencia" name="dataTransferencia" required>
+                                            <label for="dataTransferencia">Data da Transferência</label>
+                                            <div class="invalid-feedback">
+                                                Por favor, informe a data da transferência.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-floating mb-3">
+                                    <textarea class="form-control" id="descricao" name="descricao" placeholder="Descrição" style="height: 100px"></textarea>
+                                    <label for="descricao">Descrição/Identificação (opcional)</label>
+                                </div>
+                                
+                                <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                                    <a class="btn btn-outline-secondary" th:href="@{/dashboard}">
+                                        <i class="fas fa-arrow-left me-1"></i>Voltar
+                                    </a>
+                                    <button type="submit" class="btn btn-primary confirmar-operacao">
+                                        <i class="fas fa-paper-plane me-1"></i>Realizar Transferência
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="card-footer text-center py-3">
+                            <div class="small">
+                                <i class="fas fa-info-circle me-1"></i>
+                                Transferências para outros bancos podem levar até 1 dia útil para serem processadas.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script th:inline="javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+            // Definir data atual como padrão
+            document.getElementById('dataTransferencia').valueAsDate = new Date();
+            
+            // Atualizar saldo disponível ao selecionar conta
+            var contaOrigemSelect = document.getElementById('contaOrigem');
+            var saldoDisponivelInput = document.getElementById('saldoDisponivel');
+            
+            contaOrigemSelect.addEventListener('change', function() {
+                var selectedOption = this.options[this.selectedIndex];
+                if (selectedOption.value) {
+                    var saldoText = selectedOption.text.match(/\(R\$ ([\d,.]+)\)/)[1];
+                    saldoDisponivelInput.value = 'R$ ' + saldoText;
+                } else {
+                    saldoDisponivelInput.value = '';
+                }
+            });
+            
+            // Mostrar/ocultar campos de PIX
+            var tipoTransferenciaSelect = document.getElementById('tipoTransferencia');
+            var pixKeyContainer = document.getElementById('pixKeyContainer');
+            
+            tipoTransferenciaSelect.addEventListener('change', function() {
+                if (this.value === 'PIX') {
+                    pixKeyContainer.style.display = 'flex';
+                    document.getElementById('tipoChavePix').setAttribute('required', 'required');
+                    document.getElementById('chavePix').setAttribute('required', 'required');
+                } else {
+                    pixKeyContainer.style.display = 'none';
+                    document.getElementById('tipoChavePix').removeAttribute('required');
+                    document.getElementById('chavePix').removeAttribute('required');
+                }
+            });
+            
+            // Formatar campo de valor monetário
+            var valorInput = document.getElementById('valor');
+            valorInput.addEventListener('input', function(e) {
+                var value = e.target.value.replace(/\D/g, '');
+                if (value === '') {
+                    e.target.value = '';
+                    return;
+                }
+                
+                value = parseInt(value);
+                e.target.value = (value / 100).toLocaleString('pt-BR', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+            });
+            
+            // Validar formulário antes de enviar
+            var transferForm = document.getElementById('transferForm');
+            transferForm.addEventListener('submit', function(e) {
+                if (!this.checkValidity()) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                } else {
+                    // Validar se o valor não excede o saldo disponível
+                    var saldoText = saldoDisponivelInput.value.replace('R$ ', '').replace('.', '').replace(',', '.');
+                    var saldo = parseFloat(saldoText);
+                    
+                    var valorText = valorInput.value.replace('.', '').replace(',', '.');
+                    var valor = parseFloat(valorText);
+                    
+                    if (valor > saldo) {
+                        e.preventDefault();
+                        alert('Saldo insuficiente para realizar esta transferência.');
+                    } else if (!confirm('Confirma a transferência de R$ ' + valorInput.value + '?')) {
+                        e.preventDefault();
+                    }
+                }
+                
+                this.classList.add('was-validated');
+            });
+        });
+    </script>
+</body>
+</html>

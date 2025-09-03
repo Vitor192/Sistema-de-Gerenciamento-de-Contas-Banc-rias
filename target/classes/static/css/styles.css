@@ -1,0 +1,281 @@
+/* Estilos globais */
+:root {
+    --primary-color: #0d6efd;
+    --secondary-color: #6c757d;
+    --success-color: #198754;
+    --danger-color: #dc3545;
+    --warning-color: #ffc107;
+    --info-color: #0dcaf0;
+    --light-color: #f8f9fa;
+    --dark-color: #212529;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+/* Componentes personalizados */
+.card {
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.btn {
+    border-radius: 5px;
+    padding: 0.5rem 1.5rem;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+    background-color: #0b5ed7;
+    border-color: #0a58ca;
+}
+
+/* Navbar */
+.navbar {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    font-weight: 700;
+}
+
+/* Formulários */
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.form-floating > .form-control:focus ~ label,
+.form-floating > .form-control:not(:placeholder-shown) ~ label {
+    color: var(--primary-color);
+}
+
+/* Tabelas */
+.table {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.table thead {
+    background-color: var(--light-color);
+}
+
+/* Animações */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Estilos específicos para páginas */
+
+/* Dashboard */
+.account-card {
+    border-left: 5px solid var(--primary-color);
+}
+
+.account-card.savings {
+    border-left: 5px solid var(--success-color);
+}
+
+.transaction-item {
+    border-left: 3px solid transparent;
+    transition: background-color 0.2s ease;
+}
+
+.transaction-item:hover {
+    background-color: var(--light-color);
+}
+
+.transaction-item.credit {
+    border-left-color: var(--success-color);
+}
+
+.transaction-item.debit {
+    border-left-color: var(--danger-color);
+}
+
+.quick-action {
+    text-align: center;
+    padding: 1.5rem;
+    border-radius: 10px;
+    background-color: var(--light-color);
+    transition: background-color 0.3s ease;
+}
+
+.quick-action:hover {
+    background-color: #e9ecef;
+}
+
+.quick-action i {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+}
+
+/* Login e Registro */
+.login-container, .registro-container {
+    max-width: 500px;
+    width: 100%;
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.logo {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.logo i {
+    font-size: 3rem;
+    color: var(--primary-color);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .quick-action {
+        margin-bottom: 1rem;
+    }
+}
+
+/* Página inicial */
+.hero-section {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #0a58ca 100%);
+    color: white;
+    padding: 5rem 0;
+}
+
+.feature-card {
+    border: none;
+    border-radius: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.feature-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--primary-color);
+}
+
+.testimonial-section {
+    background-color: var(--light-color);
+    padding: 5rem 0;
+}
+
+.testimonial-card {
+    background-color: white;
+    border-radius: 10px;
+    padding: 2rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.testimonial-img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 1rem;
+}
+
+.cta-section {
+    background: linear-gradient(135deg, #0a58ca 0%, var(--primary-color) 100%);
+    color: white;
+    padding: 5rem 0;
+}
+
+/* Animações adicionais */
+.btn:hover {
+    transform: translateY(-2px);
+    transition: transform 0.2s ease;
+}
+
+.navbar-brand:hover {
+    transform: scale(1.05);
+    transition: transform 0.2s ease;
+}
+
+/* Estilos para o footer */
+footer {
+    margin-top: auto;
+}
+
+footer a:hover {
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
+}
+
+/* Estilos para alertas */
+.alert {
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para badges */
+.badge {
+    padding: 0.5em 0.8em;
+    border-radius: 50rem;
+}
+
+/* Estilos para dropdown */
+.dropdown-menu {
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-item:hover {
+    background-color: var(--light-color);
+}
+
+/* Estilos para paginação */
+.pagination .page-link {
+    border-radius: 5px;
+    margin: 0 2px;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+/* Estilos para modais */
+.modal-content {
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+.modal-footer {
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
