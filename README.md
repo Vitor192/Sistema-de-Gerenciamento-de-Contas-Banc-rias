@@ -21,7 +21,7 @@ Sistema completo para gerenciamento de contas bancárias com autenticação segu
 
 1. Clone o repositório:
 ```
-git clone https://github.com/seu-usuario/sistema-bancario.git
+git clone https://github.com/Vitor192/Sistema-de-Gerenciamento-de-Contas-Banc-rias
 cd sistema-bancario
 ```
 
